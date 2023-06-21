@@ -1,3 +1,5 @@
+package main;
+
 // Layout used by the JPanel
 import java.awt.BorderLayout;
 
@@ -8,6 +10,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 // Will hold all of our Rock objects
 import java.util.ArrayList;
@@ -39,6 +43,31 @@ public class Asteroids extends JFrame {
         this.setSize(boardWidth, boardHeight);
         this.setTitle("Asteroids");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == 87)
+                {
+                    System.out.println("Forward");
+                } else if (e.getKeyCode() == 83)
+                {
+                    System.out.println("Backward");
+                }
+
+            }
+
+        });
 
         GameDrawingPanel gamePanel = new GameDrawingPanel();
 
@@ -83,6 +112,9 @@ public class Asteroids extends JFrame {
         // Get the original x & y points for the polygon (static for every Rock)
         int[] polyXArray = Rock.sPolyXArray;
         int[] polyYArray = Rock.sPolyYArray;
+
+        // Create a SpaceShip
+        SpaceShip theShip = new SpaceShip();
 
         // Gets the game board height and weight
         int width = Asteroids.boardWidth;
@@ -130,6 +162,9 @@ public class Asteroids extends JFrame {
                 // Stroke the polygon Rock on the screen
                 graphicSettings.draw(rock);
             }
+
+            theShip.move();
+            graphicSettings.draw(theShip);
 
         }
 
