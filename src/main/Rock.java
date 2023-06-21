@@ -1,3 +1,5 @@
+package main;
+
 // Extending the Polygon class because Rocks will be Polygons
 import java.awt.Polygon;
 
