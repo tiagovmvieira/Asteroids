@@ -147,6 +147,10 @@ public class Asteroids extends JFrame {
                         13, randomStartXPos, randomStartYPos);
 
                 rocks.add(rock);
+
+                // Clone Rock array into a Rock static variable
+                Rock.rocks = rocks;
+
             }
 
         }
