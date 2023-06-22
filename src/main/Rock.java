@@ -2,6 +2,8 @@ package main;
 
 // Extending the Polygon class because Rocks will be Polygons
 import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class Rock extends Polygon
 {
@@ -14,8 +16,14 @@ public class Rock extends Polygon
     int yDirection = 1;
 
     // Get the board width and height
+    int rockWidth = 26;
+    int rockHeight = 31;
+    static ArrayList<Rock> rocks = new ArrayList<Rock>();
+
+    // Get the board width and height
     int width = Asteroids.boardWidth;
-    int heigth = Asteroids.boardHeight;
+    int height = Asteroids.boardHeight;
+
 
     // Will hold the x & y coordinates for the Polygons len(polyXArray) = len(sPolyXArray)
     int[] polyXArray, polyYArray;
@@ -39,7 +47,34 @@ public class Rock extends Polygon
 
     }
 
+
+    public Rectangle getBounds(){
+
+        return new Rectangle(super.xpoints[0], super.ypoints[0], rockWidth, rockHeight);
+
+    }
+
     public void move(){
+
+        Rectangle rockToCheck = this.getBounds();
+
+        for(Rock rock : rocks){
+
+            Rectangle otherRock = rock.getBounds();
+
+            if (rock != this && otherRock.intersects(rockToCheck)){
+
+                int tempXDirection = this.xDirection;
+                int tempYDirection = this.yDirection;
+
+                this.xDirection = rock.xDirection;
+                this.yDirection = rock.yDirection;
+
+                rock.xDirection = tempXDirection;
+                rock.yDirection = tempYDirection;
+
+            }
+        }
 
         // Get the upper left and top most point for the Polygon
 
@@ -49,7 +84,7 @@ public class Rock extends Polygon
         // If the Rock hits a wall it will go in the opposite direction
         if (uLeftXpos < 0 || (uLeftXpos + 25) > width){
             xDirection = -xDirection;
-        } else if (uLeftYpos < 0 || (uLeftYpos + 50) > heigth){
+        } else if (uLeftYpos < 0 || (uLeftYpos + 50) > height){
             yDirection = -yDirection;
         }
 
