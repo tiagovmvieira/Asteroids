@@ -10,8 +10,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
 
 // Will hold all of our Rock objects
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ public class Asteroids extends JFrame {
 
     public static int boardWidth = 1000;
     public static int boardHeight = 800;
+
+    public static boolean keyHeld = false;
+    public static int keyHeldCode;
 
     public static void main(String[] args){
 
@@ -52,18 +57,26 @@ public class Asteroids extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == 87) {
+                    System.out.println("Forward");
+                } else if (e.getKeyCode() == 83) {
+                    System.out.println("Backward");
+                } else if (e.getKeyCode() == 65) {
+                    System.out.println("Rotate Counter-Clockwise");
 
+                    keyHeldCode = e.getKeyCode();
+                    keyHeld = true;
+                } else if (e.getKeyCode() == 68) {
+                    System.out.println("Rotate Clockwise");
+
+                    keyHeldCode = e.getKeyCode();
+                    keyHeld = true;
+                }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == 87)
-                {
-                    System.out.println("Forward");
-                } else if (e.getKeyCode() == 83)
-                {
-                    System.out.println("Backward");
-                }
+                keyHeld = false;
 
             }
 
@@ -143,6 +156,8 @@ public class Asteroids extends JFrame {
             // Allow us to make many settings changes in regard to graphics
             Graphics2D graphicSettings = (Graphics2D) g;
 
+            AffineTransform identity = new AffineTransform();
+
             // Draw a black background that is as big as the game board
             graphicSettings.setColor(Color.BLACK);
             graphicSettings.fillRect(0, 0, getWidth(), getHeight());
@@ -163,7 +178,19 @@ public class Asteroids extends JFrame {
                 graphicSettings.draw(rock);
             }
 
+            if(Asteroids.keyHeld == true && Asteroids.keyHeldCode == 68){
+                SpaceShip.rotationAngle += 10;
+            } else if (Asteroids.keyHeld == true && Asteroids.keyHeldCode == 65){
+                SpaceShip.rotationAngle -= 10;
+            }
+
             theShip.move();
+
+            graphicSettings.setTransform(identity);
+            graphicSettings.translate(Asteroids.boardWidth/2, Asteroids.boardHeight/2);
+            graphicSettings.rotate(Math.toRadians(SpaceShip.rotationAngle));
+
+
             graphicSettings.draw(theShip);
 
         }
