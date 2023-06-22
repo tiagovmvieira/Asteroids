@@ -16,8 +16,11 @@ public class SpaceShip extends Polygon
     int height = Asteroids.boardHeight;
 
     // Will hold the x & y coordinates for the ship
-    public static int[] polyXArray = {500, 527, 500, 508, 500};
-    public static int[] polyYArray = {400, 415, 430, 415, 400};
+    public static int[] polyXArray = {-13, -14, -13, -5, -13};
+    public static int[] polyYArray = {-15, 0, 15, 0, -15};
+
+    static int rotationAngle = 0;
+
 
     // Creates a new spaceship
     public SpaceShip(){
@@ -28,6 +31,8 @@ public class SpaceShip extends Polygon
     }
 
     public void move(){
+
+        /*
 
         // Gets the upper left and top most point for the Polygon
 
@@ -49,6 +54,12 @@ public class SpaceShip extends Polygon
         for(int i = 0; i < super.ypoints.length; i++){
             super.ypoints[i] += yDirection;
         }
+
+        */
+
+        super.xpoints = SpaceShip.polyXArray;
+        super.ypoints = SpaceShip.polyYArray;
+
 
     }
 
