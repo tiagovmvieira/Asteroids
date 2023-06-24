@@ -59,8 +59,14 @@ public class Asteroids extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == 87) {
                     System.out.println("Forward");
+
+                    keyHeldCode = e.getKeyCode();
+                    keyHeld = true;
                 } else if (e.getKeyCode() == 83) {
                     System.out.println("Backward");
+
+                    keyHeldCode = e.getKeyCode();
+                    keyHeld = true;
                 } else if (e.getKeyCode() == 65) {
                     System.out.println("Rotate Counter-Clockwise");
 
@@ -183,16 +189,25 @@ public class Asteroids extends JFrame {
             }
 
             if(Asteroids.keyHeld == true && Asteroids.keyHeldCode == 68){
-                SpaceShip.rotationAngle += 10;
+                theShip.increaseRotationAngle();
+
+                System.out.println("Ship Angle: " + theShip.getRotationAngle());
             } else if (Asteroids.keyHeld == true && Asteroids.keyHeldCode == 65){
-                SpaceShip.rotationAngle -= 10;
+                theShip.decreaseRotationAngle();
+
+                System.out.println("Ship Angle: " + theShip.getRotationAngle());
+            } else if(Asteroids.keyHeld == true && Asteroids.keyHeldCode == 87){
+                theShip.setMovingAngle(theShip.getRotationAngle());
+
+                theShip.increaseXVelocity(theShip.shipXMoveAngle(theShip.getMovingAngle()) * 0.1);
+                theShip.increaseYVelocity(theShip.shipYMoveAngle(theShip.getMovingAngle()) * 0.1);
             }
 
             theShip.move();
 
             graphicSettings.setTransform(identity);
-            graphicSettings.translate(Asteroids.boardWidth/2, Asteroids.boardHeight/2);
-            graphicSettings.rotate(Math.toRadians(SpaceShip.rotationAngle));
+            graphicSettings.translate(theShip.getXCenter(), theShip.getYCenter());
+            graphicSettings.rotate(Math.toRadians(theShip.getRotationAngle()));
 
 
             graphicSettings.draw(theShip);
