@@ -35,6 +35,9 @@ public class Asteroids extends JFrame {
     public static boolean keyHeld = false;
     public static int keyHeldCode;
 
+    // ArrayList holds Torpedos
+    public static ArrayList<PhotonTorpedo> torpedos = new ArrayList<PhotonTorpedo>();
+
     public static void main(String[] args){
 
         new Asteroids();
@@ -77,6 +80,14 @@ public class Asteroids extends JFrame {
 
                     keyHeldCode = e.getKeyCode();
                     keyHeld = true;
+                }
+
+                // Check for enter key press to fire torpedo
+                else if (e.getKeyCode() == KeyEvent.VK_ENTER){
+
+                    PhotonTorpedo torpedo = new PhotonTorpedo(GameDrawingPanel.theShip.getShipNoseX(),
+                            GameDrawingPanel.theShip.getShipNoseY(), GameDrawingPanel.theShip.getRotationAngle());
+                    torpedos.add(torpedo);
                 }
             }
 
@@ -133,7 +144,7 @@ public class Asteroids extends JFrame {
         int[] polyYArray = Rock.sPolyYArray;
 
         // Create a SpaceShip
-        SpaceShip theShip = new SpaceShip();
+        static SpaceShip theShip = new SpaceShip();
 
         // Gets the game board height and weight
         int width = Asteroids.boardWidth;
@@ -209,8 +220,23 @@ public class Asteroids extends JFrame {
             graphicSettings.translate(theShip.getXCenter(), theShip.getYCenter());
             graphicSettings.rotate(Math.toRadians(theShip.getRotationAngle()));
 
-
             graphicSettings.draw(theShip);
+
+            // Draw torpedos
+            for (PhotonTorpedo torpedo: Asteroids.torpedos){
+
+                torpedo.move();
+
+                if (torpedo.onScreen){
+
+                    graphicSettings.setTransform(identity);
+
+                    graphicSettings.translate(torpedo.getXCenter(), torpedo.getYCenter());
+
+                    graphicSettings.draw(torpedo);
+                }
+
+            }
 
         }
 
