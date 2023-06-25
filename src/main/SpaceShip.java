@@ -91,13 +91,13 @@ public class SpaceShip extends Polygon
     // Calculate the ship angle of movement
     public double shipXMoveAngle(double xMoveAngle){
 
-        return (double) (Math.cos(xMoveAngle + Math.PI / 180));
+        return (double) (Math.cos(xMoveAngle * Math.PI / 180));
     }
 
 
     public double shipYMoveAngle(double yMoveAngle){
 
-        return (double) (Math.sin(yMoveAngle + Math.PI / 180));
+        return (double) (Math.sin(yMoveAngle * Math.PI / 180));
     }
 
 
@@ -128,19 +128,30 @@ public class SpaceShip extends Polygon
     }
 
 
+    // Get SpaceShip NoseVectors
+    public double getShipNoseX(){
+
+        return this.getXCenter() + Math.cos(rotationAngle) * 14;
+    }
+
+
+    public double getShipNoseY(){
+
+        return this.getYCenter() + Math.sin(rotationAngle) * 14;
+    }
+
+
     public void move(){
 
         // Increase the x origin value based on current velocity
         this.increaseXPos(this.getXVelocity());
 
         // If the ship goes off the board flip it to the other side of the board
-        /*
         if(this.getXCenter() < 0){
             this.setXCenter(gBWidth);
-        } else if(this.getXCenter() > gBWidth){
+        } else if(this.getXCenter() > gBWidth) {
             this.setXCenter(0);
         }
-         */
 
         // Increase the y origin value based on current velocity
         this.increaseYPos(this.getYVelocity());
